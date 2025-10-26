@@ -1,0 +1,91 @@
+/* https://coolors.co/01161e-124559-598392-aec3b0-eff6e0 */
+/* https://coolors.co/01161e-124559-598392-aec3b0-eff6e0 */
+
+@import url('https://fonts.googleapis.com/css2?family=Acme&display=swap');
+
+*{
+    margin:1px;
+    padding:0px;
+    box-sizing: border-box;
+}
+
+body{ 
+    font-family: monospace;
+    background: #EFF6E0;
+    color: #01161E;
+}
+
+#sidebar{
+    float: left;
+    height: 99vh;
+    width: 22.5em;
+    background: #dcff8fd2;
+    color: #01161E;
+    border-radius: 10px;
+}
+
+#sidebar:hover{
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+    transition: box-shadow 0.1s ease-in-out;
+}
+
+.sidebar-logo{
+    padding: 10px;
+    font-family: "Acme";
+    font-size: 2.8rem;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+#sidebar button{
+    font-weight: 700;
+    border-radius: 2px;
+    width: 21.5em;
+    border: 0px;
+    border-top: 1px solid blue ;
+    border-bottom: 1.5px solid blue ;
+    border-left: 3px solid blue ;
+    border-right: 1px solid blue ;
+    margin-bottom: 15px;
+    background: #dcff8f8f;
+    height: 40px;
+}
+
+#sidebar button:hover {
+    cursor: pointer;
+    background: #bfff358f;
+}
+
+#sidebar button.active {
+  background-color: #f3ffd98f; 
+}
+
+.sidebar-footer{
+    font-family: "Acme";
+    text-align: center;
+    margin-top: 2rem;
+    line-break: anywhere;
+    font-size: 50px;
+}
+
+#home-page{
+    transition: all 0.6s ease-in-out;
+    float: right;
+    display: grid;
+    place-items: center;
+    margin-right: 10px;
+    height: 99vh;
+    width: 31em;
+    border-radius: 10px;
+    text-align: center;
+    background: #fafff0d2;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    font-size: 30px;
+    word-break: 4ch;
+    padding: 10px;
+}
+
+#home-page:hover{
+    box-shadow: 5px 5px 10px 5px rgba(0, 0, 0, 0.5);
+    transition: box-shadow 0.1s ease-in-out;
+}
