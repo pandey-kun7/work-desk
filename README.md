@@ -8,7 +8,7 @@ Work Desk is a versatile, single-page web application designed to boost producti
 
 -   **Brainstorming 💡:** Unleash your creativity with the brainstorming feature. You can create different topics and add notes to each. It's a great way to organize your ideas and thoughts for various projects.
 
--   **Focus Mode  집중:** Enhance your concentration with Focus Mode. This feature includes:
+-   **Focus Mode :** Enhance your concentration with Focus Mode. This feature includes:
     -   A stopwatch to track your work sessions.
     -   A built-in notepad to jot down your thoughts and ideas.
     -   An audio player with white noise to help you stay focused and minimize distractions.

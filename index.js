@@ -2,16 +2,16 @@
 const homePage = document.querySelector("#home-page");
 
 // access of all buttons
+// gives a nodelist (similar but not same to an array)
 const sidebarButtons = document.querySelectorAll("#sidebar button");
 
-// tabs
+// all the tabs
 const focusMode = document.querySelector(".focus-mode");
-const pomodoro = document.querySelector(".pomodoro");
 const brainstorm = document.querySelector(".brainstorm");
 const todo = document.querySelector(".todo");
 const qoutes = document.querySelector(".apps");
 
-// qoutes that go for the non tanned home page
+// qoutes that go on the first homepage
 fetch("https://api.quotable.io/quotes/random")
   .then((res) => res.json())
   .then((res) => {
@@ -20,13 +20,14 @@ fetch("https://api.quotable.io/quotes/random")
   })
   .catch((err) => console.error("Error fetching quote:", err));
 
-// flags for keeping track of "ON" tabs
+// flags for keeping track of "ON" and "OFF" tabs
 let onFocusMode = false;
 let onApps = false;
 let onPomodoro = false;
 let onToDo = false;
 let onBrainstorm = false;
 
+// function to handle any tab changes and resets the prev one
 function handleViewChange(clickedButton) {
   sidebarButtons.forEach((btn) => {
     btn.classList.remove("active");
@@ -38,12 +39,14 @@ function handleViewChange(clickedButton) {
     homePage.removeChild(homePage.firstChild);
   }
 
-  homePage.style.padding = "50px ";
-  homePage.style.display = "flex";
-  homePage.style.flexDirection = "column";
-  homePage.style.alignItems = "center";
-  homePage.style.justifyContent = "center";
-  homePage.style.gap = "50px";
+  Object.assign(homePage.style, {
+    padding: "50px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "50px",
+  });
 
   onFocusMode = false;
   onApps = false;
@@ -56,26 +59,30 @@ function handleViewChange(clickedButton) {
  *==================== Focus Mode ===========================
  */
 
+// clock reset flags
 let hour = 0;
 let minute = 0;
 let second = 0;
-
 let IsRunning = false;
 
 focusMode.addEventListener("click", () => {
   if (!onFocusMode) {
     handleViewChange(focusMode);
-
     onFocusMode = true;
 
+    // stopwatch div
     const stopWatchDiv = document.createElement("div");
-    stopWatchDiv.style.backgroundColor = "beige";
-    stopWatchDiv.style.borderRadius = "20px";
-    stopWatchDiv.style.border = "1px solid blue";
-    stopWatchDiv.style.width = "380px";
+    stopWatchDiv.id = "stopwatch-div";
+    Object.assign(stopWatchDiv.style, {
+      backgroundColor: "beige",
+      borderRadius: "20px",
+      border: "1px solid blue",
+      width: "380px",
+    });
 
     // if id is the same then the latest element created is comsidered
 
+    // time trackers
     const hours = document.createElement("span");
     hours.id = "hours";
     hours.style.fontSize = "70px";
@@ -98,44 +105,19 @@ focusMode.addEventListener("click", () => {
     stopWatchDiv.appendChild(minutes);
     stopWatchDiv.appendChild(seconds);
 
-    const play = document.createElement("button");
-    play.id = "play-btn";
-    play.style.backgroundColor = "#dcff7dff";
-    play.style.border = "1px dotted black";
-    play.style.padding = "5px";
-    play.style.margin = "5px";
-    play.style.borderRadius = "6px";
-    play.style.cursor = "pointer";
-    play.textContent = "Play";
-
-    const pause = document.createElement("button");
-    pause.id = "pause-btn";
-    pause.style.backgroundColor = "#dcff7dff";
-    pause.style.border = "1px dotted black";
-    pause.style.padding = "5px";
-    pause.style.margin = "5px";
-    pause.style.borderRadius = "6px";
-    pause.style.cursor = "pointer";
-    pause.textContent = "Pause";
-
-    const reset = document.createElement("button");
-    reset.id = "reset-btn";
-    reset.style.backgroundColor = "#dcff7dff";
-    reset.style.border = "1px dotted black";
-    reset.style.padding = "5px";
-    reset.style.margin = "5px";
-    reset.style.cursor = "pointer";
-    reset.style.borderRadius = "6px";
-    reset.textContent = "Reset";
-
+    // stopwatch buttons
     const btnDiv = document.createElement("div");
 
-    btnDiv.appendChild(play);
-    btnDiv.appendChild(pause);
-    btnDiv.appendChild(reset);
-
-    stopWatchDiv.appendChild(btnDiv);
-
+    const play = document.createElement("button");
+    Object.assign(play.style, {
+      backgroundColor: "#dcff7dff",
+      border: "1px dotted black",
+      padding: "5px",
+      margin: "5px",
+      cursor: "pointer",
+      borderRadius: "6px",
+    });
+    play.textContent = "Play";
     play.addEventListener("mouseover", () => {
       play.style.background = "#e7ffa4ff";
     });
@@ -144,6 +126,17 @@ focusMode.addEventListener("click", () => {
       play.style.background = "#dcff7dff";
     });
 
+    const pause = document.createElement("button");
+    pause.id = "pause-btn";
+    Object.assign(pause.style, {
+      backgroundColor: "#dcff7dff",
+      border: "1px dotted black",
+      padding: "5px",
+      margin: "5px",
+      cursor: "pointer",
+      borderRadius: "6px",
+    });
+    pause.textContent = "Pause";
     pause.addEventListener("mouseover", () => {
       pause.style.background = "#e7ffa4ff";
     });
@@ -152,6 +145,17 @@ focusMode.addEventListener("click", () => {
       pause.style.background = "#dcff7dff";
     });
 
+    const reset = document.createElement("button");
+    reset.id = "reset-btn";
+    Object.assign(reset.style, {
+      backgroundColor: "#dcff7dff",
+      border: "1px dotted black",
+      padding: "5px",
+      margin: "5px",
+      cursor: "pointer",
+      borderRadius: "6px",
+    });
+    reset.textContent = "Reset";
     reset.addEventListener("mouseover", () => {
       reset.style.background = "#e7ffa4ff";
     });
@@ -160,12 +164,18 @@ focusMode.addEventListener("click", () => {
       reset.style.background = "#dcff7dff";
     });
 
+    btnDiv.appendChild(play);
+    btnDiv.appendChild(pause);
+    btnDiv.appendChild(reset);
+
+    stopWatchDiv.appendChild(btnDiv);
+
+    // btns click function
     let playStopWatch = null;
     play.addEventListener("click", () => {
       if (!IsRunning) {
         IsRunning = true;
         playStopWatch = setInterval(() => {
-          console.log("Clock is ticking", Date.now());
           second++;
           seconds.textContent = second;
           if (second >= 60) {
@@ -195,17 +205,15 @@ focusMode.addEventListener("click", () => {
       minute = 0;
       hour = 0;
       second = 0;
-      hours.textContent = `${hour}:`;
-      minutes.textContent = `${minute}:`;
       seconds.textContent = second;
       clearInterval(playStopWatch);
       IsRunning = false;
     });
 
-    // homePage.innerHTML = ""
     homePage.appendChild(stopWatchDiv);
 
-    midDiv = document.createElement("div"); // contains textarea and weather api
+    // notes section
+    midDiv = document.createElement("div");
     midDiv.style.height = "600px";
     midDiv.style.maxWidth = "800px";
     midDiv.style.display = "flex";
@@ -215,19 +223,21 @@ focusMode.addEventListener("click", () => {
     noteDiv.style.display = "flex";
 
     const textArea = document.createElement("textarea");
-    textArea.style.minWidth = "400px";
-    textArea.style.maxWidth = "500px";
+    Object.assign(textArea.style, {
+      minWidth: "400px",
+      maxWidth: "500px",
+      maxHeight: "350px",
+      minHeight: "200px",
+      lineHeight: "15px",
+      backgroundColor: "rgba(255, 205, 237, 1)",
+      borderRadius: "0px 20px 20px 0px",
+      overflow: "hidden",
+      padding: "10px",
+    });
     textArea.id = "my-textarea";
-    textArea.style.maxHeight = "350px";
-    textArea.style.minHeight = "350px";
-    textArea.style.lineHeight = "15px";
-    textArea.style.padding = "10px";
-    textArea.style.backgroundColor = "rgba(255, 205, 237, 1)";
-    textArea.style.borderTopRightRadius = "20px";
-    textArea.style.borderBottomRightRadius = "20px";
-    textArea.style.overflow = "auto";
     textArea.placeholder = "Enter your notes here";
 
+    // saved notes
     const savedNotes = localStorage.getItem("focusModeNotes");
     if (savedNotes) {
       textArea.value = savedNotes;
@@ -235,29 +245,32 @@ focusMode.addEventListener("click", () => {
 
     const lineText = document.createElement("div");
 
-    noteDiv.appendChild(lineText);
-    noteDiv.appendChild(textArea);
+    noteDiv.append(lineText, textArea);
     midDiv.appendChild(noteDiv);
     homePage.appendChild(midDiv);
 
+    // for keeping the styles same
     const textAreaStyles = window.getComputedStyle(textArea);
 
-    lineText.style.fontFamily = textAreaStyles.fontFamily;
-    lineText.style.fontSize = textAreaStyles.fontSize;
-    lineText.style.lineHeight = textAreaStyles.lineHeight;
-    lineText.style.paddingBottom = textAreaStyles.paddingBottom;
-    lineText.style.backgroundColor = textAreaStyles.backgroundColor;
-    lineText.style.width = "23px";
-    lineText.style.height = textAreaStyles.height;
-    lineText.style.textAlign = "center";
-    lineText.style.overflow = "hidden";
-    lineText.style.margin = "0px";
-    lineText.style.borderTopLeftRadius = textAreaStyles.borderTopRightRadius;
-    lineText.style.borderBottomLeftRadius = textAreaStyles.borderTopRightRadius;
-    lineText.style.paddingTop = textAreaStyles.padding;
-    lineText.style.paddingLeft = "3px";
-    lineText.style.paddingBottom = "3px";
+    Object.assign(lineText.style, {
+      fontFamily: textAreaStyles.fontFamily,
+      fontSize: textAreaStyles.fontSize,
+      lineHeight: textAreaStyles.lineHeight,
+      backgroundColor: textAreaStyles.backgroundColor,
+      height: textAreaStyles.height,
+      borderTopLeftRadius: textAreaStyles.borderTopRightRadius,
+      borderBottomLeftRadius: textAreaStyles.borderBottomRightRadius,
+      padding: `${textAreaStyles.paddingTop} 3px ${textAreaStyles.paddingBottom}`,
+      textAlign: "center",
+      width: "23px",
+      margin: "0px",
+      overflow: "hidden",
+    });
+    textArea.addEventListener("scroll", () => {
+      lineText.scrollTop = textArea.scrollTop;
+    });
 
+    //tracking the number of lines
     textArea.addEventListener("input", () => {
       const text = textArea.value;
       const lines = text.split("\n");
@@ -269,35 +282,33 @@ focusMode.addEventListener("click", () => {
       localStorage.setItem("focusModeNotes", text);
     });
 
-    textArea.addEventListener("scroll", () => {
-      lineText.scrollTop = textArea.scrollTop;
-    });
-
+    // for changing the height the same
     const resizeObserver = new ResizeObserver((entries) => {
       for (let entry of entries) {
         const newHeight = entry.contentRect.height;
 
-        lineText.style.height = `${newHeight + 21}px`;
+        lineText.style.height = `${newHeight + 22}px`;
       }
     });
-
     resizeObserver.observe(textArea);
 
+    //  end audio div
     const endDiv = document.createElement("div");
 
     const audioControl = document.createElement("button");
-    audioControl.style.backgroundColor = "lightblue";
-    audioControl.style.color = "black";
-    audioControl.style.padding = "7px";
-    audioControl.style.borderRadius = "7px";
-    audioControl.style.marginTop = "0px";
+    Object.assign(audioControl.style, {
+      backgroundColor: "lightblue",
+      color: "black",
+      padding: "7px",
+      borderRadius: "7px",
+      cursor: "pointer",
+    });
+    audioControl.innerText = "Play Audio";
 
     const audio = document.createElement("audio");
-
     let audioRunning = false;
 
     audio.src = "./white_noise.mp3";
-    audioControl.innerText = "Play Audio";
     audio.loop = true;
 
     endDiv.appendChild(audioControl);
@@ -866,14 +877,13 @@ brainstorm.addEventListener("click", () => {
 
       ProjectDivContainer.appendChild(ProjectDiv);
 
-
       if (projects.length && projects && !headerOn) {
         const header = document.createElement("h1");
         header.innerHTML = "<strong>Topics</strong>";
         header.style.marginBottom = "30px";
         homePage.style.display = "block";
         homePage.appendChild(header);
-        headerOn = true
+        headerOn = true;
       }
 
       deleteTodoBtn.addEventListener("click", (e) => {
@@ -939,7 +949,7 @@ brainstorm.addEventListener("click", () => {
       homePage.appendChild(ProjectDivContainer);
     });
   });
-  
+
   homePage.append(addProjectBtn, yourProjectDiv);
 });
 
